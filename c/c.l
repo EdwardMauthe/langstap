@@ -17,6 +17,8 @@ name {letter}({letter}|{digit})*?
 "{" {return LBRACE;}
 "}" {return RBRACE;}
 "," {return COMMA;}
+"+" {return PLUS;}
+"-" {return MINUS;}
 {type_name} {
 	yylval.sval=(char*)malloc(yyleng+1);
 	strcpy(yylval.sval,yytext);

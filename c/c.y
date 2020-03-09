@@ -15,16 +15,18 @@ int error_flag=0;
 %token LPAREN RPAREN
 %token LBRACE RBRACE
 %token COMMA
+%token PLUS
+%token MINUS
 %%
 Program: {
 	printf(">"); // prints the first
 }
-|Program Statement {
+|Program SuperStatement {
 	printf(">");
 	error_flag=0; // reset for next line read
 }
 ;
-Statement:
+SuperStatement:
 TYPE NAME SCOLON {
 	puts("HERE 0");
 }
@@ -34,7 +36,7 @@ TYPE NAME SCOLON {
 |TYPE NAME LPAREN ArgumentDefiningList RPAREN SCOLON {
 	puts("HERE 2");
 }
-|TYPE NAME LPAREN ArgumentDefiningList RPAREN LBRACE RBRACE {
+|TYPE NAME LPAREN ArgumentDefiningList RPAREN LBRACE Statements RBRACE {
 	puts("HERE 3");
 }
 |error {
@@ -58,6 +60,49 @@ TYPE NAME {
 }
 |TYPE {
 	puts("\t\tDefines only type!");
+}
+;
+Statements:
+Statement {
+}
+|Statement Statements {
+}
+;
+Statement:
+TYPE NAME SCOLON {
+	puts("\tDefinition");
+}
+|TYPE NAME EQUAL NUM SCOLON {
+	puts("\tVariable Define");
+}
+|NAME EQUAL NUM SCOLON {
+	puts("\tVariable Set");
+}
+|NAME LPAREN ArgumentList RPAREN SCOLON {
+	puts("\tFunction Call");
+}
+;
+ArgumentList:
+Expression {
+	puts("\tA calling ARG");
+}
+|Expression COMMA ArgumentList {
+	puts("\tMore calling ARGS");
+}
+;
+Expression:
+Term {
+	// how to do multiple terms?
+}
+|Term PLUS Expression {
+}
+|Term MINUS Expression {
+}
+;
+Term:
+NAME {
+}
+|NUM {
 }
 ;
 %%

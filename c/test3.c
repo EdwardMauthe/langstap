@@ -1,5 +1,4 @@
-int gof(char,int);
-int fog(double x)
+int func(long x,short y)
 {
 	int a;
 	int b;
