@@ -31,10 +31,10 @@ TYPE NAME SCOLON {
 |TYPE NAME EQUAL NUM SCOLON {
 	puts("HERE 1");
 }
-|TYPE NAME LPAREN RPAREN SCOLON {
+|TYPE NAME LPAREN ArgumentDefiningList RPAREN SCOLON {
 	puts("HERE 2");
 }
-|TYPE NAME LPAREN RPAREN LBRACE RBRACE {
+|TYPE NAME LPAREN ArgumentDefiningList RPAREN LBRACE RBRACE {
 	puts("HERE 3");
 }
 |error {
@@ -42,6 +42,22 @@ TYPE NAME SCOLON {
 	puts(" I can't prove that Bison will be able to know how to recover");
 	puts(" from whatever error this was so the compilation must be stopped.");
 	exit(1);
+}
+;
+ArgumentDefiningList:
+DefiningArgument {
+	puts("\tAN ARG");
+}
+|DefiningArgument COMMA ArgumentDefiningList {
+	puts("\tMORE ARGS");
+}
+;
+DefiningArgument:
+TYPE NAME {
+	puts("\t\tDefines type and Name!");
+}
+|TYPE {
+	puts("\t\tDefines only type!");
 }
 ;
 %%
